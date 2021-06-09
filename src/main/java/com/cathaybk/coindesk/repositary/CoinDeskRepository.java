@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CoinDeskRepository extends CrudRepository<CoinDeskModel, Long> {
-  Optional<CoinDeskModel> findByCurrency(String currency);
+  Optional<CoinDeskModel> findByCode(String currency);
 }

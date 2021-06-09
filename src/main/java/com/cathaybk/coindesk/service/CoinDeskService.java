@@ -74,6 +74,7 @@ public class CoinDeskService {
     coinDeskModel.setUpdated(coinDesk.getTime().getUpdated());
     coinDeskModel.setUpdatedISO(coinDesk.getTime().getUpdatedISO());
     coinDeskModel.setUpdateduk(coinDesk.getTime().getUpdateduk());
+    coinDeskModel.setRemove(false);
     switch (element.get("code").asText()) {
       case "USD":
         {
@@ -102,7 +103,6 @@ public class CoinDeskService {
   }
 
   private void setCurrency(CoinDeskModel coinDeskModel, JsonNode element) {
-    coinDeskModel.setCurrency(element.get("code").asText());
     coinDeskModel.setCode(element.get("code").asText());
     coinDeskModel.setSymbol(element.get("symbol").asText());
     coinDeskModel.setDescription(element.get("description").asText());
@@ -111,7 +111,7 @@ public class CoinDeskService {
   }
 
   public CoinDeskModel find(String currency) {
-    return coinDeskRepository.findByCurrency(currency).orElse(new CoinDeskModel());
+    return coinDeskRepository.findByCode(currency).orElse(new CoinDeskModel());
   }
 
   public List<CoinDeskModel> findAll() {
@@ -121,11 +121,12 @@ public class CoinDeskService {
   }
 
   public CoinDeskModel save(CoinDeskModel coinDeskModel) {
+    coinDeskModel.setRemove(false);
     return coinDeskRepository.save(coinDeskModel);
   }
 
   public CoinDeskModel update(String currency, CoinDeskModel coinDeskModel) {
-    Optional<CoinDeskModel> result = coinDeskRepository.findByCurrency(currency);
+    Optional<CoinDeskModel> result = coinDeskRepository.findByCode(currency);
     if (result.isPresent()) {
       result.get().setUpdated(coinDeskModel.getUpdated());
       result.get().setCurrencyName(coinDeskModel.getCurrencyName());
@@ -137,7 +138,16 @@ public class CoinDeskService {
   }
 
   public Boolean remove(String currency) {
-    Optional<CoinDeskModel> result = coinDeskRepository.findByCurrency(currency);
+    Optional<CoinDeskModel> result = coinDeskRepository.findByCode(currency);
+    if (result.isPresent()) {
+      result.get().setRemove(true);
+      return true;
+    }
+    return false;
+  }
+
+  public Boolean delete(String currency) {
+    Optional<CoinDeskModel> result = coinDeskRepository.findByCode(currency);
     result.ifPresent(coinDeskRepository::delete);
     return true;
   }

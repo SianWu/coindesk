@@ -4,28 +4,29 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "CoinDesk")
 public class CoinDeskModel {
-  @Id private String currency;
+  @Id private String code;
   private String currencyName;
   private String disclaimer;
   private String chartName;
   private LocalDateTime updatedISO;
   private LocalDateTime updated;
   private LocalDateTime updateduk;
-  private String code;
   private String symbol;
   private String rate;
   private String description;
   private double rate_float;
 
-  public String getCurrency() {
-    return currency;
+  public boolean isRemove() {
+    return remove;
   }
 
-  public void setCurrency(String currency) {
-    this.currency = currency;
+  public void setRemove(boolean remove) {
+    this.remove = remove;
   }
+
+  private boolean remove;
 
   public String getCurrencyName() {
     return currencyName;

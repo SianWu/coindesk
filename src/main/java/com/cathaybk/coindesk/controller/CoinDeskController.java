@@ -50,4 +50,9 @@ public class CoinDeskController {
   public Boolean remove(@PathVariable("currency") String currency) {
     return coinDeskService.remove(currency);
   }
+
+  @DeleteMapping("delete/{currency}")
+  public Boolean delete(@PathVariable("currency") String currency) {
+    return coinDeskService.delete(currency);
+  }
 }
