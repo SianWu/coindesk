@@ -110,6 +110,19 @@ class CoinDeskControllerTest {
   void remove() throws Exception {
     String uri = "/coindesk/remove/TWD";
     MockHttpServletRequestBuilder accept =
+        MockMvcRequestBuilders.delete(uri)
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON);
+    MvcResult result = mvc.perform(accept).andReturn();
+    int status = result.getResponse().getStatus();
+    System.out.println(status);
+    assertEquals(200, status);
+  }
+
+  @Test
+  void delete() throws Exception {
+    String uri = "/coindesk/delete/TWD";
+    MockHttpServletRequestBuilder accept =
         MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON);
     MvcResult result = mvc.perform(accept).andReturn();
     int status = result.getResponse().getStatus();

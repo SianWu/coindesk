@@ -141,6 +141,7 @@ public class CoinDeskService {
     Optional<CoinDeskModel> result = coinDeskRepository.findByCode(currency);
     if (result.isPresent()) {
       result.get().setRemove(true);
+      coinDeskRepository.save(result.get());
       return true;
     }
     return false;
